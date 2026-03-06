@@ -10,13 +10,24 @@ export function useVapi() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(0);
-  const { setCallActive, addTranscriptMessage, clearTranscript } =
-    useDemoContext();
+  const {
+    setCallActive,
+    addTranscriptMessage,
+    clearTranscript,
+    addOrderFromToolCall,
+  } = useDemoContext();
+
+  // Store pending tool call params so we can match them with results
+  const pendingToolCallsRef = useRef<Map<string, Record<string, unknown>>>(
+    new Map()
+  );
 
   useEffect(() => {
     const publicKey = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY;
     if (!publicKey || publicKey === "your-vapi-public-key-here") {
-      console.warn("Vapi public key not configured. Set NEXT_PUBLIC_VAPI_PUBLIC_KEY in .env.local");
+      console.warn(
+        "Vapi public key not configured. Set NEXT_PUBLIC_VAPI_PUBLIC_KEY in .env.local"
+      );
       return;
     }
 
@@ -41,11 +52,56 @@ export function useVapi() {
     vapi.on("volume-level", (level: number) => setVolumeLevel(level));
 
     vapi.on("message", (message: Record<string, unknown>) => {
+      // Handle transcript messages
       if (message.type === "transcript") {
         const role = message.role as string;
         const text = message.transcript as string;
         if (text && message.transcriptType === "final") {
           addTranscriptMessage(role, text);
+        }
+      }
+
+      // Capture tool-calls to store parameters
+      if (message.type === "tool-calls") {
+        const toolCallList = message.toolCallList as Array<{
+          id: string;
+          function?: { name: string; arguments: Record<string, unknown> };
+        }> | undefined;
+
+        if (toolCallList) {
+          for (const tc of toolCallList) {
+            if (tc.function?.name === "place_order") {
+              pendingToolCallsRef.current.set(tc.id, tc.function.arguments);
+            }
+          }
+        }
+      }
+
+      // Capture tool-calls-result to generate client-side orders/SMS
+      if (message.type === "tool-calls-result") {
+        const toolCallList = message.toolCallList as Array<{
+          id: string;
+          function?: { name: string; arguments: Record<string, unknown> };
+          result?: string;
+        }> | undefined;
+
+        if (toolCallList) {
+          for (const tc of toolCallList) {
+            if (tc.function?.name === "place_order" && tc.result) {
+              try {
+                const result = JSON.parse(tc.result);
+                // Get the original params from our pending map, or from the result itself
+                const params =
+                  pendingToolCallsRef.current.get(tc.id) ??
+                  tc.function.arguments ??
+                  {};
+                addOrderFromToolCall(params, result);
+                pendingToolCallsRef.current.delete(tc.id);
+              } catch {
+                console.error("Failed to parse place_order result");
+              }
+            }
+          }
         }
       }
     });
@@ -64,7 +120,9 @@ export function useVapi() {
   const startCall = useCallback(() => {
     const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID;
     if (!assistantId || assistantId === "your-vapi-assistant-id-here") {
-      alert("Vapi Assistant ID niet geconfigureerd. Stel NEXT_PUBLIC_VAPI_ASSISTANT_ID in via .env.local");
+      alert(
+        "Vapi Assistant ID niet geconfigureerd. Stel NEXT_PUBLIC_VAPI_ASSISTANT_ID in via .env.local"
+      );
       return;
     }
     setIsLoading(true);
@@ -76,5 +134,12 @@ export function useVapi() {
     vapiRef.current?.stop();
   }, []);
 
-  return { isConnected, isSpeaking, isLoading, volumeLevel, startCall, endCall };
+  return {
+    isConnected,
+    isSpeaking,
+    isLoading,
+    volumeLevel,
+    startCall,
+    endCall,
+  };
 }

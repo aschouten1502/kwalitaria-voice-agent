@@ -11,14 +11,13 @@ type Tab = "bestellingen" | "menu" | "stats";
 
 export default function CmsPanel() {
   const [activeTab, setActiveTab] = useState<Tab>("bestellingen");
-  const { orders, stats, refreshData } = useDemoContext();
+  const { orders, stats, updateOrderStatus } = useDemoContext();
 
   const handleStatusChange = useCallback(
-    async (id: string, status: Order["status"]) => {
-      await fetch(`/api/vapi?action=update-status&id=${id}&status=${status}`);
-      refreshData();
+    (id: string, status: Order["status"]) => {
+      updateOrderStatus(id, status);
     },
-    [refreshData]
+    [updateOrderStatus]
   );
 
   const tabs: { id: Tab; label: string; count?: number }[] = [
