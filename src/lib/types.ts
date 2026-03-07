@@ -17,6 +17,8 @@ export interface MenuItem {
   price: number;
   description?: string;
   customizations?: Customization[];
+  defaultIngredients?: string[];
+  defaultSauce?: string;
 }
 
 export interface MenuCategory {
@@ -36,6 +38,9 @@ export interface OrderItem {
   name: string;
   quantity: number;
   price_cents: number;
+  removed?: string[];
+  extras?: string[];
+  sauceNote?: string;
 }
 
 export interface Order {

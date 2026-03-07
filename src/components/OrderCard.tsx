@@ -54,13 +54,24 @@ export default function OrderCard({
       {/* Items */}
       <div className="space-y-1 mb-2">
         {order.items.map((item, i) => (
-          <div key={i} className="flex justify-between text-xs">
-            <span className="text-gray-300">
-              {item.quantity}x {item.name}
-            </span>
-            <span className="text-gray-400">
-              {formatEuro(item.price_cents * item.quantity)}
-            </span>
+          <div key={i}>
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-300">
+                {item.quantity}x {item.name}
+              </span>
+              <span className="text-gray-400">
+                {formatEuro(item.price_cents * item.quantity)}
+              </span>
+            </div>
+            {item.removed && item.removed.length > 0 && (
+              <div className="text-[10px] text-red-400/70 ml-4">- zonder {item.removed.join(", ")}</div>
+            )}
+            {item.extras && item.extras.length > 0 && (
+              <div className="text-[10px] text-green-400/70 ml-4">+ {item.extras.join(", ")}</div>
+            )}
+            {item.sauceNote && (
+              <div className="text-[10px] text-yellow-400/70 ml-4 italic">{item.sauceNote}</div>
+            )}
           </div>
         ))}
       </div>

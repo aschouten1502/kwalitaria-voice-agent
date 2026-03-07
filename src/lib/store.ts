@@ -50,7 +50,13 @@ export function addOrder(data: {
 
   // Auto-generate SMS messages
   const itemsSummary = data.items
-    .map((i) => `${i.quantity}x ${i.name}`)
+    .map((i) => {
+      let desc = `${i.quantity}x ${i.name}`;
+      if (i.removed?.length) desc += ` (zonder ${i.removed.join(", ")})`;
+      if (i.extras?.length) desc += ` (+ ${i.extras.join(", ")})`;
+      if (i.sauceNote) desc += ` [${i.sauceNote}]`;
+      return desc;
+    })
     .join(", ");
 
   addSmsMessage({
@@ -60,7 +66,13 @@ export function addOrder(data: {
 
   let confirmText = `Bedankt ${data.customer_name}! Je bestelling #${order.order_number} is ontvangen.\n\n`;
   confirmText += data.items
-    .map((i) => `${i.quantity}x ${i.name} - ${formatEuro(i.price_cents * i.quantity)}`)
+    .map((i) => {
+      let line = `${i.quantity}x ${i.name} - ${formatEuro(i.price_cents * i.quantity)}`;
+      if (i.removed?.length) line += `\n   ✕ zonder ${i.removed.join(", ")}`;
+      if (i.extras?.length) line += `\n   + ${i.extras.join(", ")}`;
+      if (i.sauceNote) line += `\n   ※ ${i.sauceNote}`;
+      return line;
+    })
     .join("\n");
   if (deliveryCost > 0) {
     confirmText += `\nBezorgkosten: ${formatEuro(deliveryCost)}`;

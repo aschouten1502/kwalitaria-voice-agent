@@ -109,6 +109,9 @@ function handleToolCalls(body: Record<string, unknown>) {
             name: string;
             quantity: number;
             price_cents: number;
+            removed?: string[];
+            extras?: string[];
+            sauceNote?: string;
           }>;
           notes?: string;
         };

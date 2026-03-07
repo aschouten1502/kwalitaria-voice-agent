@@ -20,6 +20,7 @@ const SAUCE_CHOICES: Customization = {
     { name: "Whiskeysaus", price: 0.75 },
     { name: "Andalousesaus", price: 0.75 },
     { name: "Samuraisaus", price: 0.75 },
+    { name: "BBQ saus", price: 0.75 },
     { name: "Sriracha mayo", price: 0.75 },
     { name: "Tartaarsaus", price: 0.50 },
     { name: "Truffel mayo", price: 0.90 },
@@ -36,6 +37,7 @@ const BURGER_SAUCE_CHOICES: Customization = {
     { name: "Mosterd" },
     { name: "Joppiesaus" },
     { name: "Whiskeysaus" },
+    { name: "BBQ saus" },
     { name: "Sriracha mayo" },
     { name: "Truffel mayo", price: 0.40 },
     { name: "Geen saus" },
@@ -263,24 +265,32 @@ export const menuData: MenuData = {
           name: "Kapsalon shoarma",
           price: 9.50,
           description: "Friet, shoarma, kaas, salade en saus",
+          defaultIngredients: ["friet", "shoarma", "kaas", "sla", "tomaat"],
+          defaultSauce: "knoflooksaus en sambal",
           customizations: [KAPSALON_SAUS],
         },
         {
           name: "Kapsalon kip",
           price: 9.50,
           description: "Friet, kipfilet, kaas, salade en saus",
+          defaultIngredients: ["friet", "kipfilet", "kaas", "sla", "tomaat"],
+          defaultSauce: "knoflooksaus en sambal",
           customizations: [KAPSALON_SAUS],
         },
         {
           name: "Kapsalon doner",
           price: 9.50,
           description: "Friet, doner, kaas, salade en saus",
+          defaultIngredients: ["friet", "doner", "kaas", "sla", "tomaat"],
+          defaultSauce: "knoflooksaus en sambal",
           customizations: [KAPSALON_SAUS],
         },
         {
           name: "Kapsalon falafel",
           price: 9.00,
           description: "Friet, falafel, kaas, salade en saus (vegetarisch)",
+          defaultIngredients: ["friet", "falafel", "kaas", "sla", "tomaat"],
+          defaultSauce: "knoflooksaus en sambal",
           customizations: [KAPSALON_SAUS],
         },
         {
@@ -361,6 +371,8 @@ export const menuData: MenuData = {
           name: "Frikandel speciaal",
           price: 3.25,
           description: "Met fritessaus, curry en uitjes",
+          defaultIngredients: ["frikandel", "uitjes"],
+          defaultSauce: "fritessaus en curry",
         },
         {
           name: "Kroket",
@@ -499,30 +511,40 @@ export const menuData: MenuData = {
           name: "The Original",
           price: 4.25,
           description: "120g runderburger met sla, tomaat en ui",
+          defaultIngredients: ["briochebroodje", "120g runderpatty", "sla", "tomaat", "ui"],
+          defaultSauce: "ketchup",
           customizations: [BURGER_SAUCE_CHOICES, BURGER_TOPPINGS, BURGER_EXTRAS],
         },
         {
           name: "The Bull",
           price: 5.95,
           description: "180g runderburger, extra groot en sappig",
+          defaultIngredients: ["briochebroodje", "180g runderpatty", "sla", "tomaat", "ui"],
+          defaultSauce: "BBQ saus",
           customizations: [BURGER_SAUCE_CHOICES, BURGER_TOPPINGS, BURGER_EXTRAS],
         },
         {
           name: "The Queen",
           price: 5.50,
           description: "Gegrilde kipfiletburger met kruidenmix",
+          defaultIngredients: ["briochebroodje", "gegrilde kipfilet", "sla", "tomaat", "ui"],
+          defaultSauce: "mayonaise",
           customizations: [BURGER_SAUCE_CHOICES, BURGER_TOPPINGS, BURGER_EXTRAS],
         },
         {
           name: "Crispy Chicken",
           price: 5.25,
           description: "Krokant gefrituurde kipburger",
+          defaultIngredients: ["briochebroodje", "krokante kipburger", "sla", "tomaat", "ui"],
+          defaultSauce: "mayonaise",
           customizations: [BURGER_SAUCE_CHOICES, BURGER_TOPPINGS, BURGER_EXTRAS],
         },
         {
           name: "Italian Tomeato",
           price: 5.95,
           description: "Met mozzarella, zongedroogde tomaat en pesto",
+          defaultIngredients: ["briochebroodje", "runderpatty", "mozzarella", "zongedroogde tomaat", "sla", "tomaat", "ui"],
+          defaultSauce: "pesto",
           customizations: [
             {
               type: "sauce",
@@ -542,6 +564,8 @@ export const menuData: MenuData = {
           name: "French Delight",
           price: 6.25,
           description: "Met brie en honing-mosterdsaus",
+          defaultIngredients: ["briochebroodje", "runderpatty", "brie", "sla", "tomaat", "ui"],
+          defaultSauce: "honing-mosterdsaus",
           customizations: [
             {
               type: "sauce",
@@ -561,12 +585,16 @@ export const menuData: MenuData = {
           name: "1838",
           price: 7.50,
           description: "Signature burger: dubbel rundvlees, cheddar, bacon, speciale 1838-saus",
+          defaultIngredients: ["briochebroodje", "dubbel rundvlees", "cheddar", "bacon", "sla", "tomaat", "ui"],
+          defaultSauce: "speciale 1838-saus",
           customizations: [BURGER_TOPPINGS, BURGER_EXTRAS],
         },
         {
           name: "Miss Fisher",
           price: 6.50,
           description: "Zalmburger met dille-yoghurtsaus",
+          defaultIngredients: ["briochebroodje", "zalmburger", "sla", "tomaat", "ui"],
+          defaultSauce: "dille-yoghurtsaus",
           customizations: [
             {
               type: "sauce",
@@ -585,18 +613,24 @@ export const menuData: MenuData = {
           name: "Veggie Burger",
           price: 5.25,
           description: "Plantaardige burger (vegetarisch)",
+          defaultIngredients: ["briochebroodje", "plantaardige burger", "sla", "tomaat", "ui"],
+          defaultSauce: "ketchup",
           customizations: [BURGER_SAUCE_CHOICES, BURGER_TOPPINGS],
         },
         {
           name: "Hamburger",
           price: 3.50,
           description: "Klassieke hamburger 100g",
+          defaultIngredients: ["broodje", "100g runderpatty", "sla", "tomaat", "ui"],
+          defaultSauce: "ketchup",
           customizations: [BURGER_SAUCE_CHOICES, BURGER_TOPPINGS, BURGER_EXTRAS],
         },
         {
           name: "Cheeseburger",
           price: 4.00,
           description: "Hamburger met kaas",
+          defaultIngredients: ["broodje", "100g runderpatty", "kaas", "sla", "tomaat", "ui"],
+          defaultSauce: "ketchup",
           customizations: [BURGER_SAUCE_CHOICES, BURGER_TOPPINGS, BURGER_EXTRAS],
         },
       ],
@@ -1067,40 +1101,54 @@ export const menuData: MenuData = {
         {
           name: "Broodje shoarma",
           price: 6.50,
+          defaultIngredients: ["broodje", "shoarma", "sla", "tomaat", "ui", "ijsbergsla"],
+          defaultSauce: "knoflooksaus",
           customizations: [BROODJE_GROENTEN, BROODJE_SAUS],
         },
         {
           name: "Broodje kip",
           price: 6.50,
+          defaultIngredients: ["broodje", "kipfilet", "sla", "tomaat", "ui", "ijsbergsla"],
+          defaultSauce: "knoflooksaus",
           customizations: [BROODJE_GROENTEN, BROODJE_SAUS],
         },
         {
           name: "Broodje doner",
           price: 6.50,
+          defaultIngredients: ["broodje", "doner", "sla", "tomaat", "ui", "ijsbergsla"],
+          defaultSauce: "knoflooksaus",
           customizations: [BROODJE_GROENTEN, BROODJE_SAUS],
         },
         {
           name: "Broodje falafel",
           price: 6.00,
           description: "Vegetarisch",
+          defaultIngredients: ["broodje", "falafel", "sla", "tomaat", "ui", "ijsbergsla"],
+          defaultSauce: "knoflooksaus",
           customizations: [BROODJE_GROENTEN, BROODJE_SAUS],
         },
         {
           name: "Durum shoarma",
           price: 8.00,
           description: "In een tortillawrap",
+          defaultIngredients: ["tortillawrap", "shoarma", "sla", "tomaat", "ui", "ijsbergsla"],
+          defaultSauce: "knoflooksaus",
           customizations: [BROODJE_GROENTEN, BROODJE_SAUS],
         },
         {
           name: "Durum kip",
           price: 8.00,
           description: "In een tortillawrap",
+          defaultIngredients: ["tortillawrap", "kipfilet", "sla", "tomaat", "ui", "ijsbergsla"],
+          defaultSauce: "knoflooksaus",
           customizations: [BROODJE_GROENTEN, BROODJE_SAUS],
         },
         {
           name: "Durum doner",
           price: 8.00,
           description: "In een tortillawrap",
+          defaultIngredients: ["tortillawrap", "doner", "sla", "tomaat", "ui", "ijsbergsla"],
+          defaultSauce: "knoflooksaus",
           customizations: [BROODJE_GROENTEN, BROODJE_SAUS],
         },
         {
@@ -1145,6 +1193,7 @@ export const menuData: MenuData = {
         { name: "Whiskeysaus", price: 0.75 },
         { name: "Andalousesaus", price: 0.75 },
         { name: "Samuraisaus", price: 0.75 },
+        { name: "BBQ saus", price: 0.75 },
         { name: "Sriracha mayo", price: 0.75 },
         { name: "Tartaarsaus", price: 0.50 },
         { name: "Truffel mayo", price: 0.90 },
@@ -1235,9 +1284,11 @@ export function getMenuItemCount(): number {
 
 /** Format full menu for Vapi voice agent (text for tool response) */
 export function formatMenuForVoice(): string {
-  return menuData.categories
+  const header = `AANPASSINGEN: Klanten kunnen ingrediënten weglaten ("zonder ui"), extra's toevoegen ("met extra bacon"), of saus wijzigen ("samuraisaus ipv BBQ"). Bij place_order: removed[] voor verwijderde ingrediënten, extras[] voor toevoegingen, sauceNote voor sauswijzigingen.\nBurger Menu's: zelfde aanpassingen als de losse burger mogelijk.\n`;
+
+  const categories = menuData.categories
     .map((cat) => {
-      const header = cat.description
+      const catHeader = cat.description
         ? `${cat.name} (${cat.description})`
         : cat.name;
 
@@ -1246,6 +1297,14 @@ export function formatMenuForVoice(): string {
           let line = `  - ${item.name}: EUR ${item.price.toFixed(2).replace(".", ",")}`;
           if (item.description) {
             line += ` — ${item.description}`;
+          }
+          if (item.defaultIngredients?.length) {
+            line += `\n      Standaard: ${item.defaultIngredients.join(", ")}`;
+            if (item.defaultSauce) {
+              line += ` | Saus: ${item.defaultSauce}`;
+            }
+          } else if (item.defaultSauce) {
+            line += `\n      Standaard saus: ${item.defaultSauce}`;
           }
           if (item.customizations?.length) {
             const opts = item.customizations
@@ -1263,9 +1322,11 @@ export function formatMenuForVoice(): string {
         })
         .join("\n");
 
-      return `${header}:\n${items}`;
+      return `${catHeader}:\n${items}`;
     })
     .join("\n\n");
+
+  return header + "\n" + categories;
 }
 
 /** Format a compact menu summary (category names + item count) */
